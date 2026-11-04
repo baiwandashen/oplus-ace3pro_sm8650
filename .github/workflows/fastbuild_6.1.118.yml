@@ -135,6 +135,7 @@ jobs:
           done
 
           # OPlus sched_tune 未开源，放占位 Kconfig 让 Kconfig 解析通过
+          rm -f common/kernel/oplus_cpu
           mkdir -p common/kernel/oplus_cpu/sched
           printf '# placeholder: OPlus sched_tune is not open-sourced\n' > common/kernel/oplus_cpu/sched/Kconfig
           echo "已创建 oplus_cpu/sched/Kconfig 占位"
