@@ -134,6 +134,14 @@ jobs:
             sed -i '$i res=$(echo "$res" | sed '\''s/-dirty//g'\'')' "$f"
           done
 
+          # OPlus sched_tune 未开源，放占位 Kconfig 让 Kconfig 解析通过
+          mkdir -p common/kernel/oplus_cpu/sched
+          printf '# placeholder: OPlus sched_tune is not open-sourced\n' > common/kernel/oplus_cpu/sched/Kconfig
+          echo "已创建 oplus_cpu/sched/Kconfig 占位"
+          # 移除依赖未开源符号的配置项，避免 kconfig 报 nonexistent symbol
+          sed -i '/CONFIG_OPLUS_SCHED_TUNE/d' common/arch/arm64/configs/gki_defconfig || true
+          echo "已清理 gki_defconfig 中的 OPLUS_SCHED_TUNE"
+
       - name: 配置ccache目录
         run: |
           echo "CCACHE_DIR=$HOME/.ccache_6.1.118" >> $GITHUB_ENV
